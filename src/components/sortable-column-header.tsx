@@ -3,6 +3,7 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { MouseEvent } from "react";
+import { GripVertical } from "lucide-react";
 
 interface Props {
   id: string;
@@ -46,7 +47,7 @@ const SortableColumnHeader = ({
           className="cursor-grab"
           onClick={(e) => e.stopPropagation()}
         >
-          =
+          <GripVertical size={24} className="text-gray-500" />
         </span>
 
         <button
