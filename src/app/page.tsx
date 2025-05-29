@@ -10,6 +10,10 @@ import {
 } from "@dnd-kit/sortable";
 import SortableColumnHeader from "@/components/sortable-column-header";
 import { ColumnKey, DEFAULT_COLUMNS, columnLabels } from "./lib/columns";
+import { FixedSizeList as List } from "react-window";
+
+const ROW_HEIGHT = 48;
+const VISIBLE_ROWS = 12;
 
 const Home = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -83,10 +87,9 @@ const Home = () => {
 
   return (
     <main className="p-8 bg-white text-gray-800">
-      <h1 className="text-2xl font-bold">Naiad's User Table</h1>
-      <p className="mb-4">Loaded users: {users.length}</p>
+      <h1 className="text-2xl font-bold mb-4">Naiad's User Table</h1>
 
-      <div className="overflow-x-auto max-h-[80vh] border border-gray-700 rounded">
+      <div className="overflow-x-auto border border-gray-700 rounded">
         <DndContext
           collisionDetection={closestCenter}
           onDragEnd={({ active, over }) => {
@@ -103,12 +106,14 @@ const Home = () => {
             items={columns}
             strategy={horizontalListSortingStrategy}
           >
-            <table className="lg:min-w-full min-w-[900px] border-collapse">
-              <thead className="sticky top-0 bg-white z-10 text-gray-900">
-                <tr>
-                  {columns.map((col) => (
+            <div className="min-w-[900px] w-full">
+              <div className="grid grid-cols-8 bg-white sticky top-0 z-10 border-b border-gray-700">
+                {columns.map((col) => (
+                  <div
+                    key={col}
+                    className="p-2 border-r border-gray-300 text-sm font-medium text-left"
+                  >
                     <SortableColumnHeader
-                      key={col}
                       id={col}
                       label={columnLabels[col]}
                       onSort={() => handleSort(col)}
@@ -117,18 +122,29 @@ const Home = () => {
                         sortConfig?.key === col ? sortConfig.direction : null
                       }
                     />
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {sortedUsers.map((user) => {
+                  </div>
+                ))}
+              </div>
+              <List
+                height={ROW_HEIGHT * VISIBLE_ROWS}
+                itemCount={sortedUsers.length}
+                itemSize={ROW_HEIGHT}
+                width="100%"
+              >
+                {({ index, style }) => {
+                  const user = sortedUsers[index];
                   const fullName = `${user.firstName} ${user.lastName}`;
                   const dsr = Math.floor(
                     (Date.now() - new Date(user.registeredDate).getTime()) /
                       (1000 * 60 * 60 * 24)
                   );
+
                   return (
-                    <tr key={user.id} className="text-gray-800">
+                    <div
+                      key={user.id}
+                      style={style}
+                      className="grid grid-cols-8 w-full border-b border-gray-200"
+                    >
                       {columns.map((col) => {
                         let value;
                         if (col === "fullName") value = fullName;
@@ -138,19 +154,19 @@ const Home = () => {
                         else value = user[col];
 
                         return (
-                          <td
+                          <div
                             key={col}
-                            className="border border-gray-700 p-2 whitespace-nowrap"
+                            className="p-2 border-r border-gray-100 text-sm truncate"
                           >
                             {value}
-                          </td>
+                          </div>
                         );
                       })}
-                    </tr>
+                    </div>
                   );
-                })}
-              </tbody>
-            </table>
+                }}
+              </List>
+            </div>
           </SortableContext>
         </DndContext>
       </div>

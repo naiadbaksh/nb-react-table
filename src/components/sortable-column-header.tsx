@@ -40,7 +40,6 @@ const SortableColumnHeader = ({
       className="border border-gray-300 p-2 text-left bg-white sticky top-0 z-10 select-none"
     >
       <div className="flex items-center gap-2">
-        {/* Drag handle only has drag listeners */}
         <span
           {...attributes}
           {...listeners}
@@ -52,7 +51,7 @@ const SortableColumnHeader = ({
 
         <button
           onClick={handleClick}
-          className="flex items-center gap-1 font-medium text-sm"
+          className="flex items-center gap-1 font-medium text-sm cursor"
         >
           {label}
           {isSorted && (
