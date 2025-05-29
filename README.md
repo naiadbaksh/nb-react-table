@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+#  React Table – Take-Home Assignment for Thrive Career Wellness
 
-## Getting Started
+Welcome! This is a performant, sortable, and draggable data table built with React and TypeScript. It loads 500 users into local state, allows dynamic column interaction, and uses virtualization for smooth rendering.
 
-First, run the development server:
+---
+
+## Features
+
+-  **500+ fake user records** loaded and persisted with `localStorage`
+-  Columns:
+  - ID
+  - First Name
+  - Last Name
+  - Email
+  - City
+  - Registered Date
+  - Full Name (derived)
+  - DSR (Days Since Registered — calculated at runtime)
+-  **Click to sort** any column (ascending/descending)
+-  **Drag to reorder columns** with `@dnd-kit`
+-  **Virtualized rows** using `react-window` for smoother scrolling
+-  Clean, consistent layout with evenly spaced columns
+-  Fully client-side, no backend required
+
+---
+
+## Why `react-window`?
+
+Rendering 500 rows in the DOM at once can cause jank, especially during scrolling or re-rendering. `react-window` solves this by rendering only the visible rows in the viewport. As you scroll, offscreen rows are efficiently swapped in and out of the DOM.
+
+This keeps performance smooth and memory usage low — critical for large or dynamic datasets.
+
+> In short: **react-window = faster tables, happier users.**
+
+---
+
+## Tech Stack
+
+- **React 18 + TypeScript**
+- **Tailwind CSS** for styling
+- **@faker-js/faker** for fake data generation
+- **@dnd-kit** for column drag-and-drop
+- **react-window** for virtualization
+- **localStorage** for data persistence
+
+---
+
+## Setup
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
